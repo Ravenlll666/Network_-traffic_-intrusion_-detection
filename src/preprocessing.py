@@ -25,12 +25,12 @@ OHE_df = pd.DataFrame(
 )
 
 # Remove the original categorical columns
-df = train_df.drop(
+train_df = train_df.drop(
     columns=['flag', 'protocol_type', 'service']
 )
 
 # Add the encoded columns to the dataset
-df = pd.concat([train_df, OHE_df], axis=1)
+train_df = pd.concat([train_df, OHE_df], axis=1)
 
 print("Training data Encoding Done")
 
@@ -56,16 +56,30 @@ test_OHE_df = pd.DataFrame(
 )
 
 # Remove the original categorical columns
-df = test_df.drop(
+test_df = test_df.drop(
     columns=['flag', 'protocol_type', 'service']
 )
 
 # Add the encoded columns to the dataset
-df = pd.concat([test_df, OHE_df], axis=1)
+test_df = pd.concat([test_df, OHE_df], axis=1)
 
 print("testing data Encoding Done")
+print(train_df.shape)
+print(test_df.shape)
 
+#Scaler 
 
+x_train = train_df.drop(columns=['label'])
+y_train = train_df['label']
+
+x_test = test_df.drop(columns=['label'])
+y_test = test_df['label']
+
+print(x_train.shape)
+print(y_train.shape)
+
+print(x_test.shape)
+print(y_test.shape)
 
 
 
