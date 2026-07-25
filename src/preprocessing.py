@@ -2,6 +2,7 @@ from Dataloader import load_train_data , load_test_data
 import pandas as pd
 import sklearn
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
 train_df = load_train_data()
 test_df = load_test_data()
 
@@ -47,7 +48,7 @@ test_One_hot_encoding = OneHotEncoder(drop='first',sparse_output=False)
 test_One_hot_encoding.fit(test_df[['flag','protocol_type','service']])
 test_OHE_encoding = test_One_hot_encoding.transform (test_df[['flag','protocol_type','service']])
 
-test_OHE_df = pd.DataFrame(
+test_OHE_df = pd.DataFrame( #one hot encoding dataframe 
     test_OHE_encoding,
     columns=test_One_hot_encoding.get_feature_names_out(
         ['flag', 'protocol_type', 'service']
@@ -75,11 +76,17 @@ y_train = train_df['label']
 x_test = test_df.drop(columns=['label'])
 y_test = test_df['label']
 
-print(x_train.shape)
-print(y_train.shape)
+#train scaler
+scaler = StandardScaler()
+scaled_xtrain = scaler.fit_transform( x_train)
 
-print(x_test.shape)
-print(y_test.shape)
+#test scaler 
+scaled_xtest = scaler.transform(x_test)
+
+
+
+
+
 
 
 
