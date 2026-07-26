@@ -7,13 +7,17 @@ def preprocess_data():
 
     test_df = load_test_data()
 
+      #remove the unseen attacks 
+    known_labels = train_df['label'].unique()
+
+    test_df = test_df[test_df['label'].isin(known_labels)]  
 
     label_encoder = LabelEncoder()#label encoder
     label_encoder.fit(train_df['label'])
     train_df['label'] = label_encoder.transform(train_df['label'])#label encoding done 
             #OneHotEncoding 
 
-    One_hot_encoding = OneHotEncoder(drop='first',sparse_output=False)
+    One_hot_encoding = OneHotEncoder(drop='first',sparse_output=False,handle_unknown="ignore")
     One_hot_encoding.fit(train_df[['flag','protocol_type','service']])
     OHE_encoding = One_hot_encoding.transform (train_df[['flag','protocol_type','service']])
 
@@ -38,31 +42,26 @@ def preprocess_data():
             # Test Dataset 
             
                 #Lable encoding
-    label_encoder = LabelEncoder()#label encoder
-    label_encoder.fit(test_df['label'])
     test_df['label'] = label_encoder.transform(test_df['label'])#label encoding done 
 
                 #OneHotEncoding 
-    test_One_hot_encoding = OneHotEncoder(drop='first',sparse_output=False)
-    test_One_hot_encoding.fit(test_df[['flag','protocol_type','service']])
-    test_OHE_encoding = test_One_hot_encoding.transform (test_df[['flag','protocol_type','service']])
+    test_OHE_encoding = One_hot_encoding.transform(
+    test_df[['flag', 'protocol_type', 'service']]
+)
 
-    test_OHE_df = pd.DataFrame( #one hot encoding dataframe 
-            test_OHE_encoding,
-            columns=test_One_hot_encoding.get_feature_names_out(
-                ['flag', 'protocol_type', 'service']
-                ),
-            index=test_df.index
-            )
+    test_OHE_df = pd.DataFrame(
+    test_OHE_encoding,
+    columns=One_hot_encoding.get_feature_names_out(
+        ['flag', 'protocol_type', 'service']
+    ),
+    index=test_df.index
+)
+    test_df = test_df.drop(columns=['flag', 'protocol_type', 'service'])
 
-            # Remove the original categorical columns
-    test_df = test_df.drop(
-            columns=['flag', 'protocol_type', 'service']
-            )
+
 
             # Add the encoded columns to the dataset
-    test_df = pd.concat([test_df, OHE_df], axis=1)
-
+    test_df = pd.concat([test_df, test_OHE_df], axis=1)
     #print("testing data Encoding Done")
         
 
@@ -82,6 +81,9 @@ def preprocess_data():
             #test scaler 
     scaled_xtest = scaler.transform(x_test)
     print("all good")
+    
+    print(scaled_xtrain.shape)
+    print(scaled_xtest.shape)
 
     return scaled_xtrain,scaled_xtest,y_train,y_test
 
