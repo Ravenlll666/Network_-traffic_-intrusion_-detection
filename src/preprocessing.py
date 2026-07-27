@@ -82,8 +82,7 @@ def preprocess_data():
     scaled_xtest = scaler.transform(x_test)
     print("all good")
     
-    print(scaled_xtrain.shape)
-    print(scaled_xtest.shape)
+
 
     return scaled_xtrain,scaled_xtest,y_train,y_test
 

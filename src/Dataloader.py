@@ -8,7 +8,7 @@ def load_test_data():
     test_df = pd.read_csv("Dataset\\Test.csv")
     return test_df
 
-print("Both datasets loaded successfully!!")
+#print("Both datasets loaded successfully!!")
 
 
 
