@@ -7,10 +7,6 @@ def preprocess_data():
 
     test_df = load_test_data()
 
-      #remove the unseen attacks 
-    known_labels = train_df['label'].unique()
-
-    test_df = test_df[test_df['label'].isin(known_labels)]  
 
     label_encoder = LabelEncoder()#label encoder
     label_encoder.fit(train_df['label'])
@@ -81,8 +77,8 @@ def preprocess_data():
             #test scaler 
     scaled_xtest = scaler.transform(x_test)
     print("all good")
-    
-
+    print(train_df["label"].isnull().sum())
+    print(test_df["label"].isnull().sum())
 
     return scaled_xtrain,scaled_xtest,y_train,y_test
 
