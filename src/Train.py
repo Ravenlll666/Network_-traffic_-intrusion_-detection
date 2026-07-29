@@ -11,7 +11,7 @@ scaled_xtrain, scaled_xtest, y_train, y_test = preprocess_data()
 model_lgr = LogisticRegression(max_iter=2000)
 model_lgr.fit(scaled_xtrain, y_train)
 y_pred_log = model_lgr.predict(scaled_xtest)
-print(model_lgr.score(scaled_xtest,y_test))
+accuracy_logr=model_lgr.score(scaled_xtest,y_test)
 #Evaluate
 evaluate_model(
     y_test,
@@ -25,7 +25,7 @@ evaluate_model(
 dtc = DecisionTreeClassifier(criterion='gini' )
 dtc.fit(scaled_xtrain,y_train )
 y_pred_dtc = dtc.predict(scaled_xtest)
-print(dtc.score(scaled_xtest,y_test))
+accuracy_dtc=dtc.score(scaled_xtest,y_test)
 #Evaluate
 evaluate_model(
     y_test,
