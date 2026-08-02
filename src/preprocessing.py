@@ -77,8 +77,7 @@ def preprocess_data():
             #test scaler 
     scaled_xtest = scaler.transform(x_test)
     print("all good")
-    print(train_df["label"].isnull().sum())
-    print(test_df["label"].isnull().sum())
+
 
     return scaled_xtrain,scaled_xtest,y_train,y_test
 

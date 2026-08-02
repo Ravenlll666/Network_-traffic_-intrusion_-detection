@@ -1,3 +1,4 @@
+import Evaluate
 from preprocessing import preprocess_data
 import pandas as pd
 import matplotlib.pyplot as plt          
@@ -6,17 +7,18 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from xgboost import XGBClassifier
+from sklearn.model_selection import RandomizedSearchCV 
 from Evaluate import evaluate_model
-
-
-
 scaled_xtrain, scaled_xtest, y_train, y_test = preprocess_data()
+
+
+
 
 model_lgr = LogisticRegression(max_iter=2000,random_state=42)
 model_lgr.fit(scaled_xtrain, y_train)
 y_pred_log = model_lgr.predict(scaled_xtest)
 accuracy_logr=model_lgr.score(scaled_xtest,y_test)
-#Evaluate
+Evaluate
 evaluate_model(
     y_test,
     y_pred_log,
@@ -38,15 +40,25 @@ evaluate_model(
 )
 
 #Random Forest 
-rfc = RandomForestClassifier(random_state=42)
-rfc.fit(scaled_xtrain,y_train )
+rfc = RandomForestClassifier(
+    n_estimators=100,
+    min_samples_split=5,
+    min_samples_leaf=1,
+    max_features='sqrt',
+    max_depth=20,
+    random_state=42
+)
+
+rfc.fit(scaled_xtrain, y_train)
+
 y_pred_rfc = rfc.predict(scaled_xtest)
-accuracy_rfc=rfc.score(scaled_xtest,y_test)
+
+accuracy_rfc = rfc.score(scaled_xtest, y_test)
 
 evaluate_model(
     y_test,
     y_pred_rfc,
-    "Random Forest"
+    "Optimized Random Forest"
 )
 
 #SVM
@@ -61,15 +73,17 @@ evaluate_model(
     y_pred_svm,
     "SVC"
 )
-
+print("%90")
 # XGBoost
+from xgboost import XGBClassifier
 
 xgb = XGBClassifier(
-    n_estimators=100,
-    max_depth=6,
-    learning_rate=0.1,
-    random_state=42,
-    eval_metric="mlogloss"
+    subsample=1.0,
+    n_estimators=300,
+    max_depth=7,
+    learning_rate=0.2,
+    colsample_bytree=1.0,
+    random_state=42
 )
 
 xgb.fit(scaled_xtrain, y_train)
@@ -81,6 +95,5 @@ accuracy_xgb = xgb.score(scaled_xtest, y_test)
 evaluate_model(
     y_test,
     y_pred_xgb,
-    "XGBoost"
+    "Optimized XGBoost"
 )
-
