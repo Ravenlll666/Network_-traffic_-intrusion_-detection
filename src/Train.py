@@ -9,7 +9,8 @@ from sklearn.svm import SVC
 from xgboost import XGBClassifier
 from sklearn.model_selection import RandomizedSearchCV 
 from Evaluate import evaluate_model
-scaled_xtrain, scaled_xtest, y_train, y_test = preprocess_data()
+import joblib
+scaled_xtrain, scaled_xtest, y_train, y_test,scaler,One_hot_encoding,label_encoder = preprocess_data()
 
 
 
@@ -62,17 +63,17 @@ evaluate_model(
 )
 
 #SVM
-svm = SVC(kernel='rbf',random_state=42)
-svm.fit(scaled_xtrain, y_train)
-y_pred_svm = svm.predict(scaled_xtest)
-accuracy_svm = svm.score(scaled_xtest, y_test)
+# svm = SVC(kernel='rbf',random_state=42)
+# svm.fit(scaled_xtrain, y_train)
+# y_pred_svm = svm.predict(scaled_xtest)
+# accuracy_svm = svm.score(scaled_xtest, y_test)
 
 
-evaluate_model(
-    y_test,
-    y_pred_svm,
-    "SVC"
-)
+# evaluate_model(
+#     y_test,
+#     y_pred_svm,
+#     "SVC"
+# )
 print("%90")
 # XGBoost
 from xgboost import XGBClassifier
@@ -97,3 +98,11 @@ evaluate_model(
     y_pred_xgb,
     "Optimized XGBoost"
 )
+import joblib
+
+joblib.dump(xgb, "model/xgb_model.pkl")
+joblib.dump(scaler, "model/scaler.pkl")
+joblib.dump(One_hot_encoding, "model/encoder.pkl")
+joblib.dump(label_encoder,'model/label_encoder.pkl')
+
+print("Model Saved Successfully")

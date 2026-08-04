@@ -79,7 +79,7 @@ def preprocess_data():
     print("all good")
 
 
-    return scaled_xtrain,scaled_xtest,y_train,y_test
+    return scaled_xtrain,scaled_xtest,y_train,y_test,scaler,One_hot_encoding,label_encoder
 
 
 
