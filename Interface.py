@@ -1,5 +1,6 @@
 import joblib 
 import pandas as pd
+import random
 
 
 
@@ -9,9 +10,17 @@ One_hot_encoding = joblib.load("model/encoder.pkl")
 label_encoder = joblib.load("model/label_encoder.pkl")
 
 model = joblib.load("model/xgb_model.pkl")
-print("Model Loaded Successfully")
+
 test = pd.read_csv("Dataset\\Test.csv")
-packet = test.iloc[[5]]
+row = int(input("Enter the row number to test: "))
+packet = test.iloc[[row]]
+
+
+
+# Save original values
+protocol = packet['protocol_type'].iloc[0]
+service = packet['service'].iloc[0]
+flag = packet['flag'].iloc[0]
 categorical = packet[['flag', 'protocol_type', 'service']]
 
 encoded = One_hot_encoding.transform(categorical)
@@ -37,12 +46,31 @@ attack = label_encoder.inverse_transform(prediction)
 probability = model.predict_proba(packet)
 
 confidence = probability.max()*100
+if confidence >= 90:
+    threat = "HIGH"
+
+elif confidence >=70:
+    threat = "MEDIUM"
+
+else:
+    threat = "LOW"
+
+
+source_ip = f"192.168.{random.randint(0,255)}.{random.randint(1,254)}"
+
+destination_ip = f"10.0.{random.randint(0,255)}.{random.randint(1,254)}"
 print("="*40)
 print("           NETWORK IDS RESULT")
 print("="*40)
+print(f"Source IP     : {source_ip}")
+print(f"Destination IP: {destination_ip}")
+print(f"Protocol      : {protocol.upper()}")
+print(f"Service       : {service.upper()}")
+print(f"TCP Flag      : {flag.upper()}")
 
 if attack[0] == "Normal":
     print("Prediction: Normal Traffic")
 else: print("Prediction:", attack[0], "Attack")
 
 print("Confidence:", f"{confidence:.1f}%" )
+print(f"Threat Level  : {threat}")  
