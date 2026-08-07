@@ -5,6 +5,8 @@ import random
 
 
 
+
+
 scaler = joblib.load("model/scaler.pkl")
 One_hot_encoding = joblib.load("model/encoder.pkl")
 label_encoder = joblib.load("model/label_encoder.pkl")
@@ -46,14 +48,6 @@ attack = label_encoder.inverse_transform(prediction)
 probability = model.predict_proba(packet)
 
 confidence = probability.max()*100
-if confidence >= 90:
-    threat = "HIGH"
-
-elif confidence >=70:
-    threat = "MEDIUM"
-
-else:
-    threat = "LOW"
 
 
 source_ip = f"192.168.{random.randint(0,255)}.{random.randint(1,254)}"
@@ -69,8 +63,20 @@ print(f"Service       : {service.upper()}")
 print(f"TCP Flag      : {flag.upper()}")
 
 if attack[0] == "Normal":
-    print("Prediction: Normal Traffic")
-else: print("Prediction:", attack[0], "Attack")
+    print(  "Prediction: Normal Traffic")
+else: print(f"Prediction: {attack[0]} Attack")
 
 print("Confidence:", f"{confidence:.1f}%" )
-print(f"Threat Level  : {threat}")  
+if attack[0] != "Normal":
+  if confidence >= 90:
+    threat = "HIGH"
+    print(f"Threat Level  : {threat}")  
+
+  elif confidence >=70:
+    threat = "MEDIUM"
+    print(f"Threat Level  : {threat}")  
+
+  else:
+    threat = "LOW"
+    print(f"Threat Level  : {threat}")  
+
