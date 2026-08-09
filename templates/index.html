@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network IDS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>NETWORK INTRUSION DETECTION SYSTEM</h1>
+
+    <p>Machine Learning Based Network Threat Detection</p>
+
+    <form action="/predict" method="POST">
+
+        <label>Enter Test Packet Row</label>
+
+        <input
+            type="number"
+            name="row_number"
+            min="0"
+            required
+        >
+
+        <button type="submit">
+            ANALYZE PACKET
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

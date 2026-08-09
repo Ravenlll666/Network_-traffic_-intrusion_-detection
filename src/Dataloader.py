@@ -53,12 +53,12 @@ attack_mapping = {
 }
 
 def load_train_data():
-    train_df = pd.read_csv("Dataset\\Train.csv")
+    train_df = pd.read_csv("Dataset/Train.csv")
     train_df["label"] = train_df["label"].map(attack_mapping)
     return train_df
 
 def load_test_data():
-    test_df = pd.read_csv("Dataset\\Test.csv")
+    test_df = pd.read_csv("Dataset/Test.csv")
     test_df["label"] = test_df["label"].map(attack_mapping)
 
     return test_df

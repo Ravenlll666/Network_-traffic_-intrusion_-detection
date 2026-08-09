@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IDS Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>NETWORK IDS RESULT</h1>
+
+    <div class="result">
+
+        <p>
+            <strong>Source IP:</strong>
+            {{ source_ip }}
+        </p>
+
+        <p>
+            <strong>Destination IP:</strong>
+            {{ destination_ip }}
+        </p>
+
+        <p>
+            <strong>Protocol:</strong>
+            {{ protocol }}
+        </p>
+
+        <p>
+            <strong>Service:</strong>
+            {{ service }}
+        </p>
+
+        <p>
+            <strong>TCP Flag:</strong>
+            {{ tcp_flag }}
+        </p>
+
+        <hr>
+
+        <p>
+            <strong>Prediction:</strong>
+            {{ attack }}
+        </p>
+
+        <p>
+            <strong>Confidence:</strong>
+            {{ confidence }}%
+        </p>
+
+        <p>
+            <strong>Threat Level:</strong>
+            {{ threat }}
+        </p>
+
+    </div>
+
+    <a href="/">
+        Analyze Another Packet
+    </a>
+
+</div>
+
+</body>
+</html>

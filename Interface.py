@@ -13,7 +13,7 @@ label_encoder = joblib.load("model/label_encoder.pkl")
 
 model = joblib.load("model/xgb_model.pkl")
 
-test = pd.read_csv("Dataset\\Test.csv")
+test = pd.read_csv("Dataset/Test.csv")
 row = int(input("Enter the row number to test: "))
 packet = test.iloc[[row]]
 
