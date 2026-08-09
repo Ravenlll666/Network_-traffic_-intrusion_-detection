@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from datetime import datetime
 import joblib
 import pandas as pd
 
 app = Flask(__name__)
+CORS(app)
 
 # Load trained ML components
 model = joblib.load("model/xgb_model.pkl")
@@ -205,7 +207,7 @@ def api_predict():
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return {
         "packet_id": packet_id,
-        "timestamp": timestamp,
+        "timestamp": timestamp, 
         "source_ip": str(source_ip),
         "destination_ip": str(destination_ip),
         "protocol": str(protocol).upper(),

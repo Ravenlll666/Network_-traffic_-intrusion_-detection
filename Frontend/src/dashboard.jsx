@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-
+import React, { useState, useEffect } from "react";
 const ALERTS = [
   { id:1, level:"CRIT", src:"45.132.88.201",  dst:"10.0.0.15",  type:"Port Scan",     proto:"TCP",  time:"14:32:01", port:"22"  },
   { id:2, level:"CRIT", src:"103.24.56.9",    dst:"10.0.0.3",   type:"Brute Force",   proto:"SSH",  time:"14:31:44", port:"22"  },
@@ -106,23 +105,23 @@ export default function NIDSDashboard() {
 
   // Get prediction from Flask
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/predict?row=6")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("API request failed");
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("ML prediction:", data);
-        setPrediction(data);
-        setApiError(false);
-      })
-      .catch(error => {
-        console.error("Flask API error:", error);
-        setApiError(true);
-      });
-  }, []);
+  fetch("http://127.0.0.1:5000/api/predict?row=6")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("API request failed");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("ML prediction:", data);
+      setPrediction(data);
+      setApiError(false);
+    })
+    .catch(error => {
+      console.error("Flask API error:", error);
+      setApiError(true);
+    });
+}, []);
  
 
 
