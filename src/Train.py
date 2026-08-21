@@ -62,18 +62,18 @@ evaluate_model(
     "Optimized Random Forest"
 )
 
-#SVM
-# svm = SVC(kernel='rbf',random_state=42)
-# svm.fit(scaled_xtrain, y_train)
-# y_pred_svm = svm.predict(scaled_xtest)
-# accuracy_svm = svm.score(scaled_xtest, y_test)
+SVM
+svm = SVC(kernel='rbf',random_state=42)
+svm.fit(scaled_xtrain, y_train)
+y_pred_svm = svm.predict(scaled_xtest)
+accuracy_svm = svm.score(scaled_xtest, y_test)
 
 
-# evaluate_model(
-#     y_test,
-#     y_pred_svm,
-#     "SVC"
-# )
+evaluate_model(
+    y_test,
+    y_pred_svm,
+    "SVC"
+)
 print("%90")
 # XGBoost
 from xgboost import XGBClassifier
